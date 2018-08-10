@@ -1,0 +1,13 @@
+G:\Reader\Novel\bin\Release\Novel.exe.config
+G:\Reader\Novel\bin\Release\Novel.exe
+G:\Reader\Novel\bin\Release\Novel.pdb
+G:\Reader\Novel\bin\Release\Tools.dll
+G:\Reader\Novel\bin\Release\Tools.pdb
+G:\Reader\Novel\obj\x86\Release\Novel.csprojAssemblyReference.cache
+G:\Reader\Novel\obj\x86\Release\Novel.Form1.resources
+G:\Reader\Novel\obj\x86\Release\Novel.Properties.Resources.resources
+G:\Reader\Novel\obj\x86\Release\Novel.csproj.GenerateResource.cache
+G:\Reader\Novel\obj\x86\Release\Novel.csproj.CoreCompileInputs.cache
+G:\Reader\Novel\obj\x86\Release\Novel.csproj.CopyComplete
+G:\Reader\Novel\obj\x86\Release\Novel.exe
+G:\Reader\Novel\obj\x86\Release\Novel.pdb

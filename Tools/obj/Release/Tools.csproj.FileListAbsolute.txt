@@ -1,0 +1,6 @@
+G:\Reader\Tools\bin\Release\Tools.dll
+G:\Reader\Tools\bin\Release\Tools.pdb
+G:\Reader\Tools\obj\Release\Tools.csprojAssemblyReference.cache
+G:\Reader\Tools\obj\Release\Tools.csproj.CoreCompileInputs.cache
+G:\Reader\Tools\obj\Release\Tools.dll
+G:\Reader\Tools\obj\Release\Tools.pdb
