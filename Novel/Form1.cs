@@ -191,7 +191,7 @@ namespace Novel
             {
                 this.FormBorderStyle = FormBorderStyle.None;
                 this.NovelBox.ScrollBars = RichTextBoxScrollBars.None;
-                this.BackColor = Color.FromArgb(255,255,255);
+                this.BackColor = Color.FromArgb(255,255,254);
                 this.TransparencyKey = this.BackColor;
                 this.NovelBox.BackColor = this.BackColor;
                 this.toolStrip1.Visible = false;
