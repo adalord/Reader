@@ -29,7 +29,7 @@ namespace Novel
             notifyIcon1.Visible = true;
             this.StartPosition = FormStartPosition.CenterScreen;//窗口居中
             this.Size = new Size(RSS.Default.windowWidth, RSS.Default.windowHeight);//读取历史窗口大小
-            this.windowBackColor = this.BackColor;//暂时保存一下toolstrip的背景色，防止隐身后重新显示时toolstrip出现透明的现象
+            this.windowBackColor = this.BackColor;//暂时保存一下toolstrip的背景色，防止隐藏后重新显示时toolstrip出现透明的现象
             //读取历史样式
             this.NovelBox.Font = RSS.Default.font;
             this.NovelBox.ForeColor = RSS.Default.fontColor;
@@ -56,8 +56,9 @@ namespace Novel
             //    this.Height = height;
             //}
             if(RSS.Default.lastTextPath != "")  //读取上次阅读进度
-            { 
-                this.openFile(RSS.Default.lastTextPath,RSS.Default.lastTextLine);
+            {
+                //this.openFile(RSS.Default.lastTextPath,RSS.Default.lastTextLine);
+                this.openFile(RSS.Default.lastTextPath, RSS.Default.lastTextIndex);
             }
         }
 
@@ -195,7 +196,7 @@ namespace Novel
             }
             else
             {
-                this.closeWindow();
+                this.closeWindow();//关闭窗口
             }
         }
         /// <summary>
@@ -239,13 +240,15 @@ namespace Novel
         }
 
         /// <summary>
-        /// 隐身模式
+        /// 隐藏模式
         /// </summary>
         /// <param name="f"></param>
         private void hideNovel(bool f)
         {
             if (f)
             {
+                RSS.Default.lastTextIndex = this.getCurrentIndex(this.NovelBox);
+                RSS.Default.Save();
                 this.FormBorderStyle = FormBorderStyle.None;
                 this.NovelBox.ScrollBars = RichTextBoxScrollBars.None;
                 this.BackColor = Color.FromArgb(255,255,254);
@@ -253,11 +256,13 @@ namespace Novel
                 this.NovelBox.BackColor = this.BackColor;
                 this.toolStrip1.Visible = false;
                 //this.NovelBox.Focus();
-                turnRowsId(RSS.Default.lastTextLine, this.NovelBox);
+                turnIndexId(RSS.Default.lastTextIndex, this.NovelBox);
                 flag1 = false;
             }
             else
             {
+                RSS.Default.lastTextIndex = this.getCurrentIndex(this.NovelBox);
+                RSS.Default.Save();
                 this.FormBorderStyle = FormBorderStyle.Sizable;
                 this.NovelBox.ScrollBars = RichTextBoxScrollBars.Vertical;
                 this.BackColor = this.windowBackColor;
@@ -265,7 +270,7 @@ namespace Novel
                 this.NovelBox.BackColor = RSS.Default.backColor;
                 this.toolStrip1.Visible = true;
                 this.toolStrip1.BackColor = Color.FromArgb(255, 255, 254);
-                turnRowsId(RSS.Default.lastTextLine, this.NovelBox);
+                turnIndexId(RSS.Default.lastTextIndex, this.NovelBox);
                 //this.NovelBox.Focus();
                 flag1 = true;
             }
@@ -276,7 +281,8 @@ namespace Novel
         /// </summary>
         private void closeWindow()
         {
-            RSS.Default.lastTextLine = this.getCurrentLine(this.NovelBox) - 1;
+            //RSS.Default.lastTextLine = this.getCurrentLine(this.NovelBox) - 1;
+            RSS.Default.lastTextIndex = this.getCurrentIndex(this.NovelBox);
             RSS.Default.Save();
             notifyIcon1.Dispose();//释放notifyIcon1的所有资源，以保证托盘图标在程序关闭时立即消失，且必须得在执行退出前，先执行图标清除才有效
             System.Environment.Exit(System.Environment.ExitCode);
@@ -323,7 +329,8 @@ namespace Novel
                     string[] fileInUnRarPath = Directory.GetFiles(unRarPath);
                     this.NovelBox.Text = txt.ResumeTxt(fileInUnRarPath[0]).ToString();//在文本框中显示过滤后的文件
                 }
-                this.turnRowsId(index, this.NovelBox);//跳转到第index行位置处（初次打开时index=0，有历史阅读进度时index!=0
+                //this.turnRowsId(index, this.NovelBox);//跳转到第index行位置处（初次打开时index=0，有历史阅读进度时index!=0
+                this.turnIndexId(index, this.NovelBox);
                 RSS.Default.lastTextPath = filePath;//保存当前打开的文件位置
                 RSS.Default.Save();
             }
@@ -350,32 +357,61 @@ namespace Novel
         /// <summary>
         /// 跳转到第n行的位置
         /// </summary>
-        /// <param name="index">当前行</param>
+        /// <param name="line">当前行</param>
         /// <param name="rich"></param>
-        private void turnRowsId(int index, RichTextBox rich)
+        private void turnRowsId(int line, RichTextBox rich)
         {
-            rich.SelectionStart = rich.GetFirstCharIndexFromLine(index);
+            rich.SelectionStart = rich.GetFirstCharIndexFromLine(line);
             rich.SelectionLength = 0;
             rich.ScrollToCaret();
 
         }
+        /// <summary>
+        /// 获取当前行第一个字符的位置（与光标所在位置无关）
+        /// </summary>
+        /// <param name="rich"></param>
+        /// <returns></returns>
+        private int getCurrentIndex(RichTextBox rich)
+        {
+            //获得当前坐标信息
+            Point p = rich.Location;
+            int positionIndex = rich.GetCharIndexFromPosition(p);
+            return positionIndex;
+        }
+        /// <summary>
+        /// 跳转到第n个位置
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="rich"></param>
+        private void turnIndexId(int index, RichTextBox rich)
+        {
+            rich.SelectionStart = index;
+            rich.SelectionLength = 0;
+            rich.Focus();
+            rich.ScrollToCaret();
+        }
 
         private void NovelBox_MouseWheel(object sender, MouseEventArgs e)
         {
-            int row = this.NovelBox.GetFirstCharIndexOfCurrentLine();
-            //MessageBox.Show(i.ToString()+":" + row.ToString());
-            if (e.Delta > 0)//滚轮向上滑动
-            {
-                RSS.Default.lastTextLine = this.getCurrentLine(this.NovelBox) - 4;
-                RSS.Default.Save();
-                turnRowsId(RSS.Default.lastTextLine, this.NovelBox);
-            }
-            else
-            {
-                RSS.Default.lastTextLine = this.getCurrentLine(this.NovelBox) + 2;
-                RSS.Default.Save();
-                turnRowsId(RSS.Default.lastTextLine, this.NovelBox);
-            }
+            RSS.Default.lastTextLine = this.getCurrentLine(this.NovelBox);
+            RSS.Default.Save();
+            //turnRowsId(RSS.Default.lastTextLine, this.NovelBox);
+            //if (!flag1)
+            //{
+            //    if (e.Delta > 0)//滚轮向上滑动
+            //    {
+            //        RSS.Default.lastTextLine = RSS.Default.lastTextLine - 1 > 0 ? RSS.Default.lastTextLine - 1 : 0;
+            //        RSS.Default.Save();
+            //        turnRowsId(RSS.Default.lastTextLine, this.NovelBox);
+            //    }
+            //    else
+            //    {
+            //        RSS.Default.lastTextLine = RSS.Default.lastTextLine + 2;
+            //        RSS.Default.Save();
+            //        turnRowsId(RSS.Default.lastTextLine, this.NovelBox);
+            //    }
+            //}
+            
         }
 
         [DllImport("user32", EntryPoint = "HideCaret")]
@@ -396,7 +432,7 @@ namespace Novel
         /// </summary>
         /// <param name="rich"></param>
         /// <returns></returns>
-        private int getCurrentIndex(RichTextBox rich)
+        private int _getCurrentIndex(RichTextBox rich)
         {
             /*  得到光标行第一个字符的索引，
              *  即从第1个字符开始到光标行的第1个字符索引*/
@@ -407,20 +443,7 @@ namespace Novel
             return row + column;
         }
 
-        /// <summary>
-        /// 弃用
-        /// 跳转到第n个位置
-        /// </summary>
-        /// <param name="index"></param>
-        /// <param name="rich"></param>
-        private void turnIndexId(int index, RichTextBox rich)
-        {
-            rich.SelectionStart = index;
-            rich.SelectionLength = 0;
-            rich.Focus();
-            rich.ScrollToCaret();
-
-        }
+        
 
 
     }
