@@ -82,5 +82,41 @@ namespace Novel {
                 this["lastTextPath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int lastTextLine {
+            get {
+                return ((int)(this["lastTextLine"]));
+            }
+            set {
+                this["lastTextLine"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("300")]
+        public int windowHeight {
+            get {
+                return ((int)(this["windowHeight"]));
+            }
+            set {
+                this["windowHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("500")]
+        public int windowWidth {
+            get {
+                return ((int)(this["windowWidth"]));
+            }
+            set {
+                this["windowWidth"] = value;
+            }
+        }
     }
 }

@@ -40,7 +40,7 @@ namespace Novel
             this.hideButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.exitButton = new System.Windows.Forms.ToolStripButton();
-            this.NovelBox = new System.Windows.Forms.RichTextBox();
+            this.NovelBox = new Tools.MyRichTextBox();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -127,18 +127,20 @@ namespace Novel
             this.NovelBox.AcceptsTab = true;
             this.NovelBox.AllowDrop = true;
             this.NovelBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.NovelBox.Cursor = System.Windows.Forms.Cursors.Default;
+            this.NovelBox.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.NovelBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.NovelBox.Location = new System.Drawing.Point(0, 25);
             this.NovelBox.Name = "NovelBox";
             this.NovelBox.ReadOnly = true;
             this.NovelBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.NovelBox.Size = new System.Drawing.Size(484, 237);
+            this.NovelBox.Size = new System.Drawing.Size(484, 236);
             this.NovelBox.TabIndex = 1;
             this.NovelBox.Text = "";
             this.NovelBox.DragDrop += new System.Windows.Forms.DragEventHandler(this.NovelBox_DragDrop);
             this.NovelBox.DragEnter += new System.Windows.Forms.DragEventHandler(this.NovelBox_DragEnter);
-            this.NovelBox.MouseWheel += new MouseEventHandler(this.NovelBox_MouseWheel);
+            this.NovelBox.GotFocus += new System.EventHandler(this.NovelBox_GotFocus);
+            this.NovelBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.NovelBox_MouseDown);
+            this.NovelBox.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.NovelBox_MouseWheel);
             // 
             // notifyIcon1
             // 
@@ -152,7 +154,7 @@ namespace Novel
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(484, 262);
+            this.ClientSize = new System.Drawing.Size(484, 261);
             this.Controls.Add(this.NovelBox);
             this.Controls.Add(this.toolStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -172,7 +174,7 @@ namespace Novel
         #endregion
 
         private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.RichTextBox NovelBox;
+        private Tools.MyRichTextBox NovelBox;
         private System.Windows.Forms.ToolStripButton openButton;
         private System.Windows.Forms.ToolStripButton hideButton;
         private System.Windows.Forms.ToolStripButton exitButton;
