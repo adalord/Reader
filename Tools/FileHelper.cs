@@ -8,7 +8,7 @@ namespace Tools
     public class FileHelper
     {
         /// <summary>
-        /// 读入文本文件并在TextBox中显示
+        /// 读入文本文件并在TextBox中显示1
         /// </summary>
         /// <param name="filePath">文本文件名</param>
         public static string ReadTextFile(string filePath)
