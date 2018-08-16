@@ -40,7 +40,7 @@ namespace Novel
             this.NovelBox.Font = RSS.Default.font;
             this.NovelBox.ForeColor = RSS.Default.fontColor;
             this.NovelBox.BackColor = RSS.Default.backColor;
-            
+
 
             this.Text = "隐藏/恢复菜单【F5】,隐藏/恢复【F6】,最小化【F7】";
 

@@ -7,5 +7,3 @@ G:\Reader\Tools\bin\Debug\Tools.pdb
 G:\Reader\Tools\obj\Debug\Tools.csproj.CoreCompileInputs.cache
 G:\Reader\Tools\obj\Debug\Tools.dll
 G:\Reader\Tools\obj\Debug\Tools.pdb
-G:\Reader\Tools\bin\Debug\Tools.dll.CodeAnalysisLog.xml
-G:\Reader\Tools\bin\Debug\Tools.dll.lastcodeanalysissucceeded
