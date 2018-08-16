@@ -296,7 +296,7 @@ namespace Novel
             catch
             {
                 MessageBox.Show("错误编码："+msg.Msg.ToString());
-                this.closeWindow();
+                //this.closeWindow();
             }
         }
 
