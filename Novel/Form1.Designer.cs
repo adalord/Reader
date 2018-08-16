@@ -138,8 +138,6 @@ namespace Novel
             this.NovelBox.Text = "";
             this.NovelBox.DragDrop += new System.Windows.Forms.DragEventHandler(this.NovelBox_DragDrop);
             this.NovelBox.DragEnter += new System.Windows.Forms.DragEventHandler(this.NovelBox_DragEnter);
-            this.NovelBox.GotFocus += new System.EventHandler(this.NovelBox_GotFocus);
-            this.NovelBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.NovelBox_MouseDown);
             this.NovelBox.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.NovelBox_MouseWheel);
             // 
             // notifyIcon1
@@ -163,6 +161,7 @@ namespace Novel
             this.ShowInTaskbar = false;
             this.TopMost = true;
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyUp);
             this.Resize += new System.EventHandler(this.Form1_Resize);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
