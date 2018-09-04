@@ -16,19 +16,23 @@ namespace Novel
     {
         Tools.RAR rar = new Tools.RAR();
         Tools.TXT txt = new Tools.TXT();
-        static bool flag = true;
-        static bool flag1 = true;
+        static bool displayMenu = true; //displayMenu：true显示菜单，false不显示菜单
+        static bool opaqueMode = true;  //opaqueMode：true不透明模式，false透明模式
         Color windowBackColor;
-        //static string path = Application.StartupPath + "\\ReadingRecord.txt";
-        //static string recordPath = null;
-        //static int recordLine = 0;
 
         // 发送消息
+        [DllImport("user32.dll", EntryPoint = "PostMessage")]
+        public static extern int PostMessage(IntPtr hWnd, int wMsg, int wParam, int lParam);
         [DllImport("user32.dll", EntryPoint = "SendMessage")]
         public static extern int SendMessage(IntPtr hWnd, int wMsg, int wParam, int lParam);
-        public static int EM_SCROLL = 0xB5;//控制鼠标滚轮
-        public static int WM_KILLFOCUS = 0x08;
+        [DllImport("user32", EntryPoint = "HideCaret")]
+        private static extern bool HideCaret(IntPtr hWnd);
 
+        public static int EM_SCROLL = 0xB5;//文本垂直滚动。第三个参数*控制滚动方向:SB_LINEDOWN(1)向下滚动一行，SB_LINEUP(0)向上滚动一行，SB_PAGEDOWN(3)向下滚动一页，SB_PAGEUP(2)向上滚动一页
+        public static int WM_KILLFOCUS = 0x08;
+        public static int EM_GETFIRSTVISIBLEINE = 0xCE;//获得文本控件中处于可见位置的最顶部的文本所在的行号
+        public static int EM_LINEINDEX = 0xBB;//获取指定行(或:-1,0 表示光标所在行)首字符在文本中的位置（以字节数表示）
+        public static int EM_SETREADONLY = 0xCF;
         public Form1()
         {
             InitializeComponent();
@@ -44,23 +48,6 @@ namespace Novel
 
             this.Text = "隐藏/恢复菜单【F5】,隐藏/恢复【F6】,最小化【F7】";
 
-            //System.IO.StreamReader file = new System.IO.StreamReader(path);
-            //recordPath = file.ReadLine();
-            //recordLine = Convert.ToInt32(file.ReadLine());
-            //int width = Convert.ToInt32(file.ReadLine());
-            //int height = Convert.ToInt32(file.ReadLine());
-            //file.Close();
-
-            ////阅读记录
-            //if (recordPath != "")
-            //{
-            //    this.NovelBox.Text = txt.ResumeTxt(recordPath).ToString();
-            //    int start = this.NovelBox.GetFirstCharIndexFromLine(recordLine);
-            //    this.NovelBox.SelectionStart = start;
-            //    this.NovelBox.ScrollToCaret();
-            //    this.Width = width;
-            //    this.Height = height;
-            //}
             if(RSS.Default.lastTextPath != "")  //读取上次阅读进度
             {
                 this.openFile(RSS.Default.lastTextPath, RSS.Default.lastTextIndex);
@@ -71,23 +58,23 @@ namespace Novel
         {
             if (e.KeyCode == Keys.F5)
             {
-                if (flag)
+                if (displayMenu)    //当前显示菜单，则变为不显示菜单
                 {
                     this.TransparencyKey = BackColor;
                     this.toolStrip1.Visible = false;
                     this.NovelBox.Focus();
-                    flag = false;
+                    displayMenu = false;
                 }
-                else
+                else    //当前不显示菜单，则变为不显示菜单
                 {
                     this.TransparencyKey = Color.Snow;
                     this.toolStrip1.Visible = true;
-                    flag = true;
+                    displayMenu = true;
                 }
             }
             if (e.KeyCode == Keys.F6)
             {
-                hideNovel(flag1);   //隐藏窗口
+                hideNovel();   //隐藏窗口
             }
             if (e.KeyCode == Keys.F7)
             {
@@ -97,43 +84,17 @@ namespace Novel
             {
                 this.Close();   //关闭窗口
             }
-            if (e.KeyCode == Keys.Down)
-            {
-                //Console.WriteLine( this.getCurrentLine(this.NovelBox));
-                //turnRowsId(this.getCurrentLine(this.NovelBox), this.NovelBox);
-                //this.myScroll(this.NovelBox, "nextLine");
-                //this.NovelBox.SelectionStart = getCurrentIndex(this.NovelBox);
-                //this.NovelBox.Focus();
-                //Console.WriteLine("KeyDown");
-                //e.Handled = true;
-            }
-            if (e.KeyCode == Keys.Up)
-            {
-                //Console.WriteLine(this.getCurrentLine(this.NovelBox));
-                //turnRowsId(this.getCurrentLine(this.NovelBox), this.NovelBox);
-                //this.myScroll(this.NovelBox, "lastLine");
-                //this.NovelBox.SelectionStart = getCurrentIndex(this.NovelBox);
-                //this.NovelBox.Focus();
-                //Console.WriteLine("KeyDown");
-                //e.Handled = true;
-            }
         }
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Down)
             {
-                //Console.WriteLine( this.getCurrentLine(this.NovelBox));
-                //turnRowsId(this.getCurrentLine(this.NovelBox), this.NovelBox);
                 this.myScroll(this.NovelBox, "nextLine");
-                //Console.WriteLine("KeyUp");
                 e.Handled = true;
             }
             if (e.KeyCode == Keys.Up)
             {
-                //Console.WriteLine(this.getCurrentLine(this.NovelBox));
-                //turnRowsId(this.getCurrentLine(this.NovelBox), this.NovelBox);
                 this.myScroll(this.NovelBox, "lastLine");
-                //Console.WriteLine("KeyUp");
                 e.Handled = true;
             }
         }
@@ -142,7 +103,7 @@ namespace Novel
         {
             RSS.Default.lastTextLine = this.getCurrentLine(this.NovelBox);
             RSS.Default.Save();
-            if (!flag1) // 隐藏模式下使用鼠标滚轮，每次滚动一行
+            if (!opaqueMode) // 隐藏模式下使用鼠标滚轮，每次滚动一行
             {
                 if (e.Delta > 0)//滚轮向上滑动
                 {
@@ -151,6 +112,17 @@ namespace Novel
                 else
                 {
                     this.myScroll(this.NovelBox, "nextLine");
+                }
+            }
+            else
+            {
+                if (e.Delta > 0)//滚轮向上滑动
+                {
+                    PostMessage(this.NovelBox.Handle, EM_SCROLL, 1, 0); // 滚动到下一行
+                }
+                else
+                {
+                    PostMessage(this.NovelBox.Handle, EM_SCROLL, 0, 0); // 滚动到上一行
                 }
             }
         }
@@ -244,20 +216,20 @@ namespace Novel
 
         private void hideButton_Click(object sender, EventArgs e)
         {
-            hideNovel(flag1);
+            hideNovel();
         }
 
         private void exitButton_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("最小化到托盘？", "退出", MessageBoxButtons.YesNo,
+            DialogResult result = MessageBox.Show("是否直接关闭？", "关闭", MessageBoxButtons.YesNo,
                           MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification);
             if (result == DialogResult.Yes)
             {
-                this.Hide();    //隐藏窗口
+                this.closeWindow();//关闭窗口
             }
             else
             {
-                this.closeWindow();//关闭窗口
+                this.Hide();    //隐藏窗口
             }
         }
         /// <summary>
@@ -301,12 +273,12 @@ namespace Novel
         }
 
         /// <summary>
-        /// 隐藏模式
+        /// 透明模式
         /// </summary>
-        /// <param name="f"></param>
-        private void hideNovel(bool f)
+        /// <param name="">全局变量opaqueMode：true正常显示窗口，false透明窗口</param>
+        private void hideNovel()
         {
-            if (f)
+            if (opaqueMode)    //当前为正常显示窗口，则变为透明窗口
             {
                 RSS.Default.lastTextIndex = this.getCurrentIndex(this.NovelBox);
                 RSS.Default.Save();
@@ -316,11 +288,10 @@ namespace Novel
                 this.TransparencyKey = this.BackColor;
                 this.NovelBox.BackColor = this.BackColor;
                 this.toolStrip1.Visible = false;
-                //this.NovelBox.Focus();
                 turnIndexId(RSS.Default.lastTextIndex, this.NovelBox);
-                flag1 = false;
+                opaqueMode = false;
             }
-            else
+            else    //当前为透明窗口，则变为正常模式
             {
                 RSS.Default.lastTextIndex = this.getCurrentIndex(this.NovelBox);
                 RSS.Default.Save();
@@ -332,8 +303,7 @@ namespace Novel
                 this.toolStrip1.Visible = true;
                 this.toolStrip1.BackColor = Color.FromArgb(255, 255, 254);
                 turnIndexId(RSS.Default.lastTextIndex, this.NovelBox);
-                //this.NovelBox.Focus();
-                flag1 = true;
+                opaqueMode = true;
             }
         }
 
@@ -345,26 +315,8 @@ namespace Novel
             RSS.Default.lastTextIndex = this.getCurrentIndex(this.NovelBox);
             RSS.Default.Save();
             notifyIcon1.Dispose();//释放notifyIcon1的所有资源，以保证托盘图标在程序关闭时立即消失，且必须得在执行退出前，先执行图标清除才有效
-            System.Environment.Exit(System.Environment.ExitCode);
-            this.Dispose();
-            this.Close();
+            Application.Exit();
         }
-
-        //private void Form1_FormClosing(object sender, FormClosingEventArgs e)
-        //{
-        //    recordLine = this.NovelBox.GetLineFromCharIndex(this.NovelBox.SelectionStart);
-        //    //recordLine = 1000;
-        //    FileStream fst = new FileStream(path, FileMode.Create);
-        //    //写数据到txt
-        //    StreamWriter swt = new StreamWriter(fst, System.Text.Encoding.GetEncoding("utf-8"));
-        //    //写入
-        //    swt.WriteLine(recordPath);
-        //    swt.WriteLine(recordLine);
-        //    swt.WriteLine(this.Width);
-        //    swt.WriteLine(this.Height);
-        //    swt.Close();
-        //    fst.Close();
-        //}
 
         /// <summary>
         /// 打开txt|rar|zip文件
@@ -407,10 +359,11 @@ namespace Novel
         private int getCurrentLine(RichTextBox rich)
         {
             //获得当前坐标信息
-            Point p = rich.Location;
-            int positionIndex = rich.GetCharIndexFromPosition(p);
-            int positionLine = rich.GetLineFromCharIndex(positionIndex);
-            return positionLine;
+            //Point p = rich.Location;
+            //int positionIndex = rich.GetCharIndexFromPosition(p);
+            //int positionLine = rich.GetLineFromCharIndex(positionIndex);
+            //return positionLine;
+            return SendMessage(rich.Handle, EM_GETFIRSTVISIBLEINE, 0, 0);
         }
 
         /// <summary>
@@ -434,9 +387,10 @@ namespace Novel
         private int getCurrentIndex(RichTextBox rich)
         {
             //获得当前坐标信息
-            Point p = rich.Location;
-            int positionIndex = rich.GetCharIndexFromPosition(p);
-            return positionIndex;
+            //Point p = rich.Location;
+            //int positionIndex = rich.GetCharIndexFromPosition(p);
+            //return positionIndex;
+            return SendMessage(rich.Handle, EM_LINEINDEX, getCurrentLine(rich), 0);
         }
         /// <summary>
         /// 跳转到第n个位置
@@ -458,26 +412,26 @@ namespace Novel
         /// </summary>
         /// <param name="rich"></param>
         /// <param name="command">
-        /// 滚动到下一行:nextLine
-        /// 滚动到上一行:lastLine
-        /// 滚动到下一页:nextPage
-        /// 滚动到上一页:lastPage
+        /// <summary>滚动到下一行:nextLine</summary>
+        /// <summary>滚动到上一行:lastLine</summary>
+        /// <summary>滚动到下一页:nextPage</summary>
+        /// <summary>滚动到上一页:lastPage</summary>
         /// </param>
         private void myScroll(RichTextBox rich,String command)
         {
             switch (command)
             {
                 case "nextLine":
-                    SendMessage(rich.Handle, EM_SCROLL, 1, 0); // 滚动到下一行
+                    PostMessage(rich.Handle, EM_SCROLL, 1, 0); // 滚动到下一行
                     break;
                 case "lastLine":
-                    SendMessage(rich.Handle, EM_SCROLL, 0, 0);//滚动到上一行
+                    PostMessage(rich.Handle, EM_SCROLL, 0, 0);//滚动到上一行
                     break;
                 case "nextPage":
-                    SendMessage(rich.Handle, EM_SCROLL, 3, 0);//滚动到下一页
+                    PostMessage(rich.Handle, EM_SCROLL, 3, 0);//滚动到下一页
                     break;
                 case "lastPage":
-                    SendMessage(rich.Handle, EM_SCROLL, 2, 0);//滚动到上一页
+                    PostMessage(rich.Handle, EM_SCROLL, 2, 0);//滚动到上一页
                     break;
                 default:
                     Console.WriteLine("非法命令");
@@ -485,23 +439,7 @@ namespace Novel
             }
             
         }
-        /// <summary>
-        /// 弃用
-        /// 获取当前光标的位置
-        /// </summary>
-        /// <param name="rich"></param>
-        /// <returns></returns>
-        private int _getCurrentIndex(RichTextBox rich)
-        {
-            /*  得到光标行第一个字符的索引，
-             *  即从第1个字符开始到光标行的第1个字符索引*/
-            int row = rich.GetFirstCharIndexOfCurrentLine();
-            /*得到光标行的行号,第1行从0开始计算，习惯上我们是从1开始计算，所以+1。 */
-            //int line = rich.GetLineFromCharIndex(index) + 1;
-            int column = rich.SelectionStart - row;
-            return row + column;
-        }
 
-
+        
     }
 }

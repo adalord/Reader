@@ -138,6 +138,8 @@ namespace Novel
             this.NovelBox.Text = "";
             this.NovelBox.DragDrop += new System.Windows.Forms.DragEventHandler(this.NovelBox_DragDrop);
             this.NovelBox.DragEnter += new System.Windows.Forms.DragEventHandler(this.NovelBox_DragEnter);
+            //this.NovelBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.NovelBox_MouseDown);
+            //this.NovelBox.GotFocus += new System.EventHandler(this.NovelBox_GotFocus);
             this.NovelBox.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.NovelBox_MouseWheel);
             // 
             // notifyIcon1
@@ -174,6 +176,7 @@ namespace Novel
 
         private System.Windows.Forms.ToolStrip toolStrip1;
         private Tools.MyRichTextBox NovelBox;
+        //private System.Windows.Forms.RichTextBox NovelBox;
         private System.Windows.Forms.ToolStripButton openButton;
         private System.Windows.Forms.ToolStripButton hideButton;
         private System.Windows.Forms.ToolStripButton exitButton;
