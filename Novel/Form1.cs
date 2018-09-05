@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.IO;
 using Novel;
 using System.Runtime.InteropServices;
+using System.Drawing.Drawing2D;
 
 namespace Novel
 {
@@ -36,6 +37,7 @@ namespace Novel
         public Form1()
         {
             InitializeComponent();
+            DoubleBuffered = true;//双缓存处理
             notifyIcon1.Visible = true;
             this.StartPosition = FormStartPosition.CenterScreen;//窗口居中
             this.Size = new Size(RSS.Default.windowWidth, RSS.Default.windowHeight);//读取历史窗口大小
@@ -82,7 +84,8 @@ namespace Novel
             }
             if (e.KeyCode == Keys.Escape)
             {
-                this.Close();   //关闭窗口
+                //this.Close();   //关闭窗口
+                this.closeWindow();
             }
         }
         private void Form1_KeyUp(object sender, KeyEventArgs e)
@@ -112,17 +115,6 @@ namespace Novel
                 else
                 {
                     this.myScroll(this.NovelBox, "nextLine");
-                }
-            }
-            else
-            {
-                if (e.Delta > 0)//滚轮向上滑动
-                {
-                    PostMessage(this.NovelBox.Handle, EM_SCROLL, 1, 0); // 滚动到下一行
-                }
-                else
-                {
-                    PostMessage(this.NovelBox.Handle, EM_SCROLL, 0, 0); // 滚动到上一行
                 }
             }
         }
@@ -284,7 +276,7 @@ namespace Novel
                 RSS.Default.Save();
                 this.FormBorderStyle = FormBorderStyle.None;
                 this.NovelBox.ScrollBars = RichTextBoxScrollBars.None;
-                this.BackColor = Color.FromArgb(255,255,254);
+                this.BackColor = Color.FromArgb(255, 255, 254);
                 this.TransparencyKey = this.BackColor;
                 this.NovelBox.BackColor = this.BackColor;
                 this.toolStrip1.Visible = false;
@@ -295,13 +287,13 @@ namespace Novel
             {
                 RSS.Default.lastTextIndex = this.getCurrentIndex(this.NovelBox);
                 RSS.Default.Save();
-                this.FormBorderStyle = FormBorderStyle.Sizable;
-                this.NovelBox.ScrollBars = RichTextBoxScrollBars.Vertical;
-                this.BackColor = this.windowBackColor;
-                this.TransparencyKey = Color.White;
-                this.NovelBox.BackColor = RSS.Default.backColor;
                 this.toolStrip1.Visible = true;
                 this.toolStrip1.BackColor = Color.FromArgb(255, 255, 254);
+                this.NovelBox.BackColor = RSS.Default.backColor;
+                this.TransparencyKey = Color.White;
+                this.BackColor = this.windowBackColor;
+                this.NovelBox.ScrollBars = RichTextBoxScrollBars.Vertical;
+                this.FormBorderStyle = FormBorderStyle.Sizable;
                 turnIndexId(RSS.Default.lastTextIndex, this.NovelBox);
                 opaqueMode = true;
             }
