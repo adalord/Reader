@@ -118,5 +118,17 @@ namespace Novel {
                 this["backColor"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int lastTextPadding {
+            get {
+                return ((int)(this["lastTextPadding"]));
+            }
+            set {
+                this["lastTextPadding"] = value;
+            }
+        }
     }
 }

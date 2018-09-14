@@ -16,14 +16,12 @@ namespace Tools
         /// <returns></returns>
         static public bool Exists()
         {
-            RegistryKey the_Reg =
-                Registry.LocalMachine.OpenSubKey(
-                    @"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\WinRAR.exe");
+            RegistryKey the_Reg = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\WinRAR.exe");
             return !string.IsNullOrEmpty(the_Reg.GetValue("").ToString());
         }
 
         /// <summary>
-        /// 打包成Rar
+        /// 打包成Rar(不用)
         /// </summary>
         /// <param name="patch"></param>
         /// <param name="rarPatch"></param>

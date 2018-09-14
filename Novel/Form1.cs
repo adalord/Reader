@@ -26,6 +26,8 @@ namespace Novel
         public static extern int PostMessage(IntPtr hWnd, int wMsg, int wParam, int lParam);
         [DllImport("user32.dll", EntryPoint = "SendMessage")]
         public static extern int SendMessage(IntPtr hWnd, int wMsg, int wParam, int lParam);
+        [DllImport("user32", CharSet = CharSet.Auto)]
+        private static extern IntPtr SendMessage(HandleRef hWnd, int msg, int wParam, ref PARAFORMAT2 lParam);
         [DllImport("user32", EntryPoint = "HideCaret")]
         private static extern bool HideCaret(IntPtr hWnd);
 
@@ -34,6 +36,7 @@ namespace Novel
         public static int EM_GETFIRSTVISIBLEINE = 0xCE;//获得文本控件中处于可见位置的最顶部的文本所在的行号
         public static int EM_LINEINDEX = 0xBB;//获取指定行(或:-1,0 表示光标所在行)首字符在文本中的位置（以字节数表示）
         public static int EM_SETREADONLY = 0xCF;
+
         public Form1()
         {
             InitializeComponent();
@@ -41,19 +44,32 @@ namespace Novel
             notifyIcon1.Visible = true;
             this.StartPosition = FormStartPosition.CenterScreen;//窗口居中
             this.Size = new Size(RSS.Default.windowWidth, RSS.Default.windowHeight);//读取历史窗口大小
-            this.windowBackColor = this.BackColor;//暂时保存一下toolstrip的背景色，防止隐藏后重新显示时toolstrip出现透明的现象
+            this.windowBackColor = RSS.Default.backColor;//暂时保存一下toolstrip的背景色，防止隐藏后重新显示时toolstrip出现透明的现象
             //读取历史样式
             this.NovelBox.Font = RSS.Default.font;
             this.NovelBox.ForeColor = RSS.Default.fontColor;
             this.NovelBox.BackColor = RSS.Default.backColor;
-
-
+            SetLineSpace(this.NovelBox, 500);//设置行间距
             this.Text = "隐藏/恢复菜单【F5】,隐藏/恢复【F6】,最小化【F7】";
 
-            if(RSS.Default.lastTextPath != "")  //读取上次阅读进度
+
+            if (RSS.Default.lastTextPath != "")  //读取上次阅读进度
             {
-                this.openFile(RSS.Default.lastTextPath, RSS.Default.lastTextIndex);
+                try
+                {
+                    this.openFile(RSS.Default.lastTextPath, RSS.Default.lastTextIndex);
+                }
+                catch
+                {
+                    MessageBox.Show("未能访问 " + RSS.Default.lastTextPath + " 。", "消息");
+                    RSS.Default.lastTextPath = "";
+                }
             }
+
+        }
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -84,8 +100,7 @@ namespace Novel
             }
             if (e.KeyCode == Keys.Escape)
             {
-                //this.Close();   //关闭窗口
-                this.closeWindow();
+                Application.Exit();    //关闭窗口
             }
         }
         private void Form1_KeyUp(object sender, KeyEventArgs e)
@@ -159,10 +174,15 @@ namespace Novel
         {
             this.NovelBox.Text = "";
             string filePath = ((System.Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();  //获得路径
-            this.openFile(filePath,0);//打开文件
+            this.openFile(filePath, 0);//打开文件
 
         }
 
+        /// <summary>
+        /// 打开文件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void openButton_Click(object sender, EventArgs e)
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
@@ -172,12 +192,16 @@ namespace Novel
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
                 string filePath = fileDialog.FileName;
-                this.openFile(filePath,0);
-                
+                this.openFile(filePath, 0);
+
             }
         }
 
-
+        /// <summary>
+        /// 字体设置
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void fontButton_Click(object sender, EventArgs e)
         {
             FontDialog fontDialog = new FontDialog();
@@ -191,6 +215,11 @@ namespace Novel
             }
         }
 
+        /// <summary>
+        /// 背景颜色设置
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void backColorButton_Click(object sender, EventArgs e)
         {
             ColorDialog colorDialog = new ColorDialog();
@@ -206,24 +235,47 @@ namespace Novel
 
         }
 
+        /// <summary>
+        /// 透明模式
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void hideButton_Click(object sender, EventArgs e)
         {
             hideNovel();
         }
 
-        private void exitButton_Click(object sender, EventArgs e)
+        /// <summary>
+        /// 退出
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            DialogResult result = MessageBox.Show("是否直接关闭？", "关闭", MessageBoxButtons.YesNo,
-                          MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification);
+            DialogResult result = MessageBox.Show("是否退出？", "退出", MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification);
             if (result == DialogResult.Yes)
             {
-                this.closeWindow();//关闭窗口
+                e.Cancel = false;
             }
             else
             {
+                e.Cancel = true;
                 this.Hide();    //隐藏窗口
             }
         }
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            //保存当前阅读进度后，关闭程序
+            RSS.Default.lastTextIndex = this.getCurrentIndex(this.NovelBox);
+            RSS.Default.Save();
+            notifyIcon1.Dispose();//释放notifyIcon1的所有资源，以保证托盘图标在程序关闭时立即消失，且必须得在执行退出前，先执行图标清除才有效
+        }
+
+        private void exitButton_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
         /// <summary>
         /// 双击windows右下角的icon图标
         /// </summary>
@@ -235,33 +287,6 @@ namespace Novel
             WindowState = FormWindowState.Normal;
             //this.Focus();
             NovelBox.Select();
-        }
-
-        /// <summary>
-        /// 窗体右上角红色叉叉事件
-        /// </summary>
-        /// <param name="msg"></param>
-        protected override void WndProc(ref Message msg)
-        {
-            
-            const int WM_SYSCOMMAND = 0x0112;
-            const int SC_CLOSE = 0xF060;
-            try
-            {
-                if (msg.Msg == WM_SYSCOMMAND && ((int)msg.WParam == SC_CLOSE))
-                {
-                    // 点击winform右上关闭按钮 
-                    // 加入想要的逻辑处理
-                    this.closeWindow();
-                    //return;阻止了窗体关闭
-                }
-                base.WndProc(ref msg);
-            }
-            catch
-            {
-                MessageBox.Show("错误编码："+msg.Msg.ToString());
-                //this.closeWindow();
-            }
         }
 
         /// <summary>
@@ -300,22 +325,11 @@ namespace Novel
         }
 
         /// <summary>
-        /// 并关闭窗口：保存当前阅读进度后，关闭程序
-        /// </summary>
-        private void closeWindow()
-        {
-            RSS.Default.lastTextIndex = this.getCurrentIndex(this.NovelBox);
-            RSS.Default.Save();
-            notifyIcon1.Dispose();//释放notifyIcon1的所有资源，以保证托盘图标在程序关闭时立即消失，且必须得在执行退出前，先执行图标清除才有效
-            Application.Exit();
-        }
-
-        /// <summary>
         /// 打开txt|rar|zip文件
         /// </summary>
         /// <param name="filePath">文件路径</param>
         /// <param name="index">打开文件后跳转到第index个字符的位置</param>
-        private void openFile(string filePath,int index)
+        private void openFile(string filePath, int index)
         {
             string fileName = Path.GetFileNameWithoutExtension(filePath);
             string unRarPath = Application.StartupPath + "\\Books\\" + fileName;//解压到的目标路径
@@ -397,8 +411,6 @@ namespace Novel
             rich.ScrollToCaret();
         }
 
-
-
         /// <summary>
         /// 滚动焦点
         /// </summary>
@@ -409,7 +421,7 @@ namespace Novel
         /// <summary>滚动到下一页:nextPage</summary>
         /// <summary>滚动到上一页:lastPage</summary>
         /// </param>
-        private void myScroll(RichTextBox rich,String command)
+        private void myScroll(RichTextBox rich, String command)
         {
             switch (command)
             {
@@ -429,9 +441,78 @@ namespace Novel
                     Console.WriteLine("非法命令");
                     break;
             }
-            
         }
 
-        
+
+        public const int WM_USER = 0x0400;
+        public const int EM_GETPARAFORMAT = WM_USER + 61;
+        public const int EM_SETPARAFORMAT = WM_USER + 71;
+        public const long MAX_TAB_STOPS = 32;
+        public const uint PFM_LINESPACING = 0x00000100;
+        [StructLayout(LayoutKind.Sequential)]
+        private struct PARAFORMAT2
+        {
+            public int cbSize;
+            public uint dwMask;
+            public short wNumbering;
+            public short wReserved;
+            public int dxStartIndent;
+            public int dxRightIndent;
+            public int dxOffset;
+            public short wAlignment;
+            public short cTabCount;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
+            public int[] rgxTabs;
+            public int dySpaceBefore;
+            public int dySpaceAfter;
+            public int dyLineSpacing;
+            public short sStyle;
+            public byte bLineSpacingRule;
+            public byte bOutlineLevel;
+            public short wShadingWeight;
+            public short wShadingStyle;
+            public short wNumberingStart;
+            public short wNumberingStyle;
+            public short wNumberingTab;
+            public short wBorderSpace;
+            public short wBorderWidth;
+            public short wBorders;
+        }
+        /// <summary>
+        /// 设置行距
+        /// </summary>
+        /// <param name="ctl">控件</param>
+        /// <param name="dyLineSpacing">间距</param>
+        public void SetLineSpace(Control ctl, int dyLineSpacing)
+        {
+            PARAFORMAT2 fmt = new PARAFORMAT2();
+            fmt.cbSize = Marshal.SizeOf(fmt);
+            fmt.bLineSpacingRule = 4;// bLineSpacingRule;
+            fmt.dyLineSpacing = dyLineSpacing;
+            fmt.dwMask = PFM_LINESPACING;
+            try
+            {
+                SendMessage(new HandleRef(ctl, ctl.Handle), EM_SETPARAFORMAT, 0, ref fmt);
+            }
+            catch
+            {
+
+            }
+        }
+        [DllImport("user32")]
+        public static extern int SetParent(int hWndChild, int hWndNewParent);
+        public Form2 form2 = null;
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            if (form2 == null || form2.IsDisposed)
+            {
+                form2 = new Form2();
+            }
+            form2.StartPosition = FormStartPosition.CenterParent;
+            form2.ShowDialog();
+            form2.Focus();
+        }
+
+
     }
 }

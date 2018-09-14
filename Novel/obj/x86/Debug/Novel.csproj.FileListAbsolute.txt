@@ -22,3 +22,15 @@ G:\Reader\Novel\obj\x86\Debug\Novel.csproj.CoreCompileInputs.cache
 G:\Reader\Novel\obj\x86\Debug\Novel.csproj.CopyComplete
 G:\Reader\Novel\obj\x86\Debug\Novel.exe
 G:\Reader\Novel\obj\x86\Debug\Novel.pdb
+D:\vs_test\Reader-master\Novel\bin\Debug\Novel.exe.config
+D:\vs_test\Reader-master\Novel\obj\x86\Debug\Novel.exe
+D:\vs_test\Reader-master\Novel\obj\x86\Debug\Novel.pdb
+D:\vs_test\Reader-master\Novel\bin\Debug\Novel.exe
+D:\vs_test\Reader-master\Novel\bin\Debug\Novel.pdb
+D:\vs_test\Reader-master\Novel\bin\Debug\Tools.dll
+D:\vs_test\Reader-master\Novel\bin\Debug\Tools.pdb
+D:\vs_test\Reader-master\Novel\obj\x86\Debug\Novel.csprojResolveAssemblyReference.cache
+D:\vs_test\Reader-master\Novel\obj\x86\Debug\Novel.Form1.resources
+D:\vs_test\Reader-master\Novel\obj\x86\Debug\Novel.Properties.Resources.resources
+D:\vs_test\Reader-master\Novel\obj\x86\Debug\Novel.csproj.GenerateResource.Cache
+G:\Reader\Novel\obj\x86\Debug\Novel.Form2.resources

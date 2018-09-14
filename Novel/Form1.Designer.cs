@@ -37,11 +37,13 @@ namespace Novel
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.fontButton = new System.Windows.Forms.ToolStripButton();
             this.backColorButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.hideButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.exitButton = new System.Windows.Forms.ToolStripButton();
             this.NovelBox = new Tools.MyRichTextBox();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripSplitButton();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -53,6 +55,7 @@ namespace Novel
             this.toolStripSeparator1,
             this.fontButton,
             this.backColorButton,
+            this.toolStripButton2,
             this.hideButton,
             this.toolStripSeparator2,
             this.exitButton});
@@ -96,6 +99,16 @@ namespace Novel
             this.backColorButton.Size = new System.Drawing.Size(36, 22);
             this.backColorButton.Text = "背景";
             this.backColorButton.Click += new System.EventHandler(this.backColorButton_Click);
+            // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(60, 22);
+            this.toolStripButton2.Text = "视图设置";
+            this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
             // 
             // hideButton
             // 
@@ -146,6 +159,15 @@ namespace Novel
             this.notifyIcon1.Text = "Novel";
             this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
             // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(48, 22);
+            this.toolStripButton1.Text = "间距";
+            // 
             // Form1
             // 
             this.AllowDrop = true;
@@ -160,6 +182,9 @@ namespace Novel
             this.Name = "Form1";
             this.ShowInTaskbar = false;
             this.TopMost = true;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyUp);
             this.Resize += new System.EventHandler(this.Form1_Resize);
@@ -177,12 +202,14 @@ namespace Novel
         //private System.Windows.Forms.RichTextBox NovelBox;
         private System.Windows.Forms.ToolStripButton openButton;
         private System.Windows.Forms.ToolStripButton hideButton;
-        private System.Windows.Forms.ToolStripButton exitButton;
-        private System.Windows.Forms.ToolStripButton fontButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton backColorButton;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
+        private ToolStripSeparator toolStripSeparator2;
+        private ToolStripButton exitButton;
+        private ToolStripButton fontButton;
+        private ToolStripSplitButton toolStripButton1;
+        private ToolStripButton toolStripButton2;
     }
 }
 
