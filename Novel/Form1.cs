@@ -16,6 +16,7 @@ namespace Novel
 {
     public partial class Form1 : Form
     {
+        public static Form1 form1;
         Tools.RAR rar = new Tools.RAR();
         Tools.TXT txt = new Tools.TXT();
         static bool displayMenu = true; //displayMenu：true显示菜单，false不显示菜单
@@ -41,6 +42,7 @@ namespace Novel
         public Form1()
         {
             InitializeComponent();
+            form1 = this;
             DoubleBuffered = true;//双缓存处理
             notifyIcon1.Visible = true;
             this.StartPosition = FormStartPosition.CenterScreen;//窗口居中
@@ -84,7 +86,7 @@ namespace Novel
                     this.NovelBox.Focus();
                     displayMenu = false;
                 }
-                else    //当前不显示菜单，则变为不显示菜单
+                else    //当前不显示菜单，则变为显示菜单
                 {
                     this.TransparencyKey = Color.Snow;
                     this.toolStrip1.Visible = true;
@@ -287,7 +289,6 @@ namespace Novel
         {
             this.Show();
             WindowState = FormWindowState.Normal;
-            //this.Focus();
             NovelBox.Select();
         }
 
@@ -414,10 +415,9 @@ namespace Novel
         /// <param name="rich"></param>
         private void turnIndexId(int index, RichTextBox rich)
         {
-            rich.SelectionStart = index;
-            rich.SelectionLength = 0;
-            rich.Focus();
+            rich.Select(index, 0);
             rich.ScrollToCaret();
+            rich.Focus();
         }
 
         /// <summary>
@@ -509,8 +509,6 @@ namespace Novel
 
             }
         }
-        [DllImport("user32")]
-        public static extern int SetParent(int hWndChild, int hWndNewParent);
         public Form2 form2 = null;
         private void toolStripButton2_Click(object sender, EventArgs e)
         {

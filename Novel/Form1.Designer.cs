@@ -259,7 +259,7 @@ namespace Novel
         #endregion
 
         private System.Windows.Forms.ToolStrip toolStrip1;
-        private Tools.MyRichTextBox NovelBox;
+        public Tools.MyRichTextBox NovelBox;
         //private System.Windows.Forms.RichTextBox NovelBox;
         private System.Windows.Forms.ToolStripButton openButton;
         private System.Windows.Forms.ToolStripButton hideButton;

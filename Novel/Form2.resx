@@ -112,9 +112,22 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="richTextBox1.Text" xml:space="preserve">
+    <value>　　长时间面对电脑显示器对眼睛不好，虽然这并不影响我们读电子书的热情，不过假如能在读书愉快的基础上保护好眼睛又何乐而不为呢？
+
+1、合理的分配阅读时间
+　　面对显示器连续不断的阅读，眼睛的焦点集中在一个地方，长时间下来影响视力暂且不说，目光也容易变得呆滞。合理的分配阅读时间，每隔一段时间做一次眼保健操不仅可以保护视力还可以美容呐！
+
+2、正确的选择背景颜色
+　　人们往往习惯于“白纸黑字”的阅读方式，但是这种方式并不适用于电脑阅读。当电脑显示一幅全白的画面时辐射量是最大的，反之显示一幅全黑的画面时辐射量最小。在电脑上长时间阅读，“黑纸白字”无疑是更好的方式。
+　　顺带一提：很多人认为眼睛累了最好出去看一看绿色的景物。其实这是一个错误的观点，科学研究指出绿色并不是对眼睛有益的颜色，眼疲劳的时候最好的方法就是闭目养神或做做眼保健操。
+
+3、设置合适的屏幕刷新率
+　　Ｗｉｎｄｏｗｓ系统默认的屏幕刷新率是６０ＨＺ，这样的刷新率对于液晶显示器来说足够了，而对于常用的阴极射线管（ＣＲＴ）显示器，７５ＨＺ以上的刷新率才能使人眼基本感觉不到闪烁。您可以通过本软件的“显示器设置”选项直接更改您电脑的刷新率。推荐ＣＲＴ显示器使用８５ＨＺ左右的刷新率。</value>
+  </data>
 </root>

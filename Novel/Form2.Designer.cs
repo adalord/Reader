@@ -28,17 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
             this.label1 = new System.Windows.Forms.Label();
             this.verticalSpacingText = new System.Windows.Forms.TextBox();
             this.confirm_btn = new System.Windows.Forms.Button();
             this.cancle_btn = new System.Windows.Forms.Button();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.fontText = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.backgroundText = new System.Windows.Forms.TextBox();
             this.distanceText = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.fontBtn = new System.Windows.Forms.Button();
+            this.backColorBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -56,6 +55,8 @@
             this.verticalSpacingText.Name = "verticalSpacingText";
             this.verticalSpacingText.Size = new System.Drawing.Size(54, 21);
             this.verticalSpacingText.TabIndex = 1;
+            this.verticalSpacingText.TextChanged += new System.EventHandler(this.verticalSpacingText_TextChanged);
+            this.verticalSpacingText.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.verticalSpacingText_KeyPress);
             // 
             // confirm_btn
             // 
@@ -83,39 +84,7 @@
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(317, 94);
             this.richTextBox1.TabIndex = 4;
-            this.richTextBox1.Text = "";
-            // 
-            // fontText
-            // 
-            this.fontText.Location = new System.Drawing.Point(274, 126);
-            this.fontText.Name = "fontText";
-            this.fontText.Size = new System.Drawing.Size(55, 21);
-            this.fontText.TabIndex = 5;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(239, 129);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(29, 12);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "字体";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(239, 161);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(29, 12);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "背景";
-            // 
-            // backgroundText
-            // 
-            this.backgroundText.Location = new System.Drawing.Point(274, 158);
-            this.backgroundText.Name = "backgroundText";
-            this.backgroundText.Size = new System.Drawing.Size(55, 21);
-            this.backgroundText.TabIndex = 8;
+            this.richTextBox1.Text = resources.GetString("richTextBox1.Text");
             // 
             // distanceText
             // 
@@ -133,25 +102,46 @@
             this.label4.TabIndex = 10;
             this.label4.Text = "左右间距";
             // 
+            // fontBtn
+            // 
+            this.fontBtn.Location = new System.Drawing.Point(241, 129);
+            this.fontBtn.Name = "fontBtn";
+            this.fontBtn.Size = new System.Drawing.Size(88, 23);
+            this.fontBtn.TabIndex = 11;
+            this.fontBtn.Text = "字体";
+            this.fontBtn.UseVisualStyleBackColor = true;
+            this.fontBtn.Click += new System.EventHandler(this.fontbtn_Click);
+            // 
+            // backColorBtn
+            // 
+            this.backColorBtn.Location = new System.Drawing.Point(241, 161);
+            this.backColorBtn.Name = "backColorBtn";
+            this.backColorBtn.Size = new System.Drawing.Size(88, 23);
+            this.backColorBtn.TabIndex = 12;
+            this.backColorBtn.Text = "背景";
+            this.backColorBtn.UseVisualStyleBackColor = true;
+            this.backColorBtn.Click += new System.EventHandler(this.backColorBtn_Click);
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(341, 241);
+            this.Controls.Add(this.backColorBtn);
+            this.Controls.Add(this.fontBtn);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.distanceText);
-            this.Controls.Add(this.backgroundText);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.fontText);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.cancle_btn);
             this.Controls.Add(this.confirm_btn);
             this.Controls.Add(this.verticalSpacingText);
             this.Controls.Add(this.label1);
             this.Name = "Form2";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.Text = "视图设置";
             this.TopMost = true;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form2_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -164,11 +154,9 @@
         private System.Windows.Forms.Button confirm_btn;
         private System.Windows.Forms.Button cancle_btn;
         private System.Windows.Forms.RichTextBox richTextBox1;
-        private System.Windows.Forms.TextBox fontText;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox backgroundText;
         private System.Windows.Forms.TextBox distanceText;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button fontBtn;
+        private System.Windows.Forms.Button backColorBtn;
     }
 }
