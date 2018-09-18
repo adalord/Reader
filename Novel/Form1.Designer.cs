@@ -41,12 +41,15 @@ namespace Novel
             this.hideButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.exitButton = new System.Windows.Forms.ToolStripButton();
-            this.NovelBox = new Tools.MyRichTextBox();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.toolStripButton1 = new System.Windows.Forms.ToolStripSplitButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.selectTextBox = new System.Windows.Forms.ToolStripTextBox();
+            this.selectTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.selectButton = new System.Windows.Forms.ToolStripButton();
+            this.NovelBox = new Tools.MyRichTextBox();
+            this.selectlistBox = new System.Windows.Forms.ListBox();
+            this.selectTextBox2 = new System.Windows.Forms.ToolStripTextBox();
+            this.cancelButton = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -61,8 +64,10 @@ namespace Novel
             this.toolStripButton2,
             this.hideButton,
             this.toolStripSeparator3,
-            this.selectTextBox,
+            this.selectTextBox1,
+            this.selectTextBox2,
             this.selectButton,
+            this.cancelButton,
             this.toolStripSeparator2,
             this.exitButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
@@ -141,24 +146,6 @@ namespace Novel
             this.exitButton.Text = "退出";
             this.exitButton.Click += new System.EventHandler(this.exitButton_Click);
             // 
-            // NovelBox
-            // 
-            this.NovelBox.AcceptsTab = true;
-            this.NovelBox.AllowDrop = true;
-            this.NovelBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.NovelBox.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.NovelBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.NovelBox.Location = new System.Drawing.Point(0, 25);
-            this.NovelBox.Name = "NovelBox";
-            this.NovelBox.ReadOnly = true;
-            this.NovelBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.NovelBox.Size = new System.Drawing.Size(484, 236);
-            this.NovelBox.TabIndex = 1;
-            this.NovelBox.Text = "";
-            this.NovelBox.DragDrop += new System.Windows.Forms.DragEventHandler(this.NovelBox_DragDrop);
-            this.NovelBox.DragEnter += new System.Windows.Forms.DragEventHandler(this.NovelBox_DragEnter);
-            this.NovelBox.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.NovelBox_MouseWheel);
-            // 
             // notifyIcon1
             // 
             this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
@@ -179,11 +166,11 @@ namespace Novel
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
             // 
-            // selectTextBox
+            // selectTextBox1
             // 
-            this.selectTextBox.BackColor = System.Drawing.Color.White;
-            this.selectTextBox.Name = "selectTextBox";
-            this.selectTextBox.Size = new System.Drawing.Size(100, 25);
+            this.selectTextBox1.BackColor = System.Drawing.Color.White;
+            this.selectTextBox1.Name = "selectTextBox1";
+            this.selectTextBox1.Size = new System.Drawing.Size(50, 25);
             // 
             // selectButton
             // 
@@ -193,6 +180,53 @@ namespace Novel
             this.selectButton.Name = "selectButton";
             this.selectButton.Size = new System.Drawing.Size(36, 22);
             this.selectButton.Text = "检索";
+            this.selectButton.Click += new System.EventHandler(this.selectButton_Click);
+            // 
+            // NovelBox
+            // 
+            this.NovelBox.AcceptsTab = true;
+            this.NovelBox.AllowDrop = true;
+            this.NovelBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.NovelBox.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.NovelBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.NovelBox.Location = new System.Drawing.Point(0, 25);
+            this.NovelBox.Name = "NovelBox";
+            this.NovelBox.ReadOnly = true;
+            this.NovelBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+            this.NovelBox.Size = new System.Drawing.Size(484, 236);
+            this.NovelBox.TabIndex = 1;
+            this.NovelBox.Text = "";
+            this.NovelBox.DragDrop += new System.Windows.Forms.DragEventHandler(this.NovelBox_DragDrop);
+            this.NovelBox.DragEnter += new System.Windows.Forms.DragEventHandler(this.NovelBox_DragEnter);
+            this.NovelBox.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.NovelBox_MouseWheel);
+            // 
+            // selectlistBox
+            // 
+            this.selectlistBox.Dock = System.Windows.Forms.DockStyle.Right;
+            this.selectlistBox.FormattingEnabled = true;
+            this.selectlistBox.ItemHeight = 12;
+            this.selectlistBox.Location = new System.Drawing.Point(303, 25);
+            this.selectlistBox.Name = "selectlistBox";
+            this.selectlistBox.Size = new System.Drawing.Size(181, 236);
+            this.selectlistBox.TabIndex = 2;
+            this.selectlistBox.Visible = false;
+            this.selectlistBox.SelectedIndexChanged += new System.EventHandler(this.selectlistBox_SelectedIndexChanged);
+            // 
+            // selectTextBox2
+            // 
+            this.selectTextBox2.BackColor = System.Drawing.Color.White;
+            this.selectTextBox2.Name = "selectTextBox2";
+            this.selectTextBox2.Size = new System.Drawing.Size(50, 25);
+            // 
+            // cancelButton
+            // 
+            this.cancelButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.cancelButton.Image = ((System.Drawing.Image)(resources.GetObject("cancelButton.Image")));
+            this.cancelButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.Size = new System.Drawing.Size(36, 22);
+            this.cancelButton.Text = "取消";
+            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
             // Form1
             // 
@@ -201,6 +235,7 @@ namespace Novel
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(484, 261);
+            this.Controls.Add(this.selectlistBox);
             this.Controls.Add(this.NovelBox);
             this.Controls.Add(this.toolStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -237,8 +272,11 @@ namespace Novel
         private ToolStripSplitButton toolStripButton1;
         private ToolStripButton toolStripButton2;
         private ToolStripSeparator toolStripSeparator3;
-        private ToolStripTextBox selectTextBox;
+        private ToolStripTextBox selectTextBox1;
         private ToolStripButton selectButton;
+        private ListBox selectlistBox;
+        private ToolStripTextBox selectTextBox2;
+        private ToolStripButton cancelButton;
     }
 }
 

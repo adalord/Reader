@@ -10,6 +10,7 @@ using System.IO;
 using Novel;
 using System.Runtime.InteropServices;
 using System.Drawing.Drawing2D;
+using System.Text.RegularExpressions;
 
 namespace Novel
 {
@@ -133,6 +134,7 @@ namespace Novel
                 }
             }
         }
+
         /// <summary>
         /// 修改窗口大小时
         /// </summary>
@@ -304,6 +306,9 @@ namespace Novel
                 this.BackColor = Color.FromArgb(255, 255, 254);
                 this.TransparencyKey = this.BackColor;
                 this.NovelBox.BackColor = this.BackColor;
+                this.selectTextBox1.Text = "";
+                this.selectTextBox2.Text = "";
+                this.selectlistBox.Visible = false;
                 this.toolStrip1.Visible = false;
                 turnIndexId(RSS.Default.lastTextIndex, this.NovelBox);
                 opaqueMode = false;
@@ -314,7 +319,8 @@ namespace Novel
                 RSS.Default.Save();
                 this.toolStrip1.Visible = true;
                 this.toolStrip1.BackColor = Color.WhiteSmoke;
-                this.selectTextBox.BackColor = Color.White;
+                this.selectTextBox1.BackColor = Color.White;
+                this.selectTextBox2.BackColor = Color.White;
                 this.NovelBox.BackColor = RSS.Default.backColor;
                 this.TransparencyKey = Color.Gold;
                 this.BackColor = this.windowBackColor;
@@ -517,5 +523,59 @@ namespace Novel
             form2.Focus();
         }
 
+        private void selectButton_Click(object sender, EventArgs e)
+        {
+            if (this.selectTextBox1.Text != "")
+            {
+                selectlistBox.Visible = true;
+                string[] results;
+                if (this.selectTextBox2.Text == "")
+                    results = NovelBox.Lines.Where(s => s.Contains(selectTextBox1.Text)).ToArray();
+                else
+                {
+                    string select1 = this.selectTextBox1.Text;
+                    string select2 = this.selectTextBox2.Text;
+                    results = Getunit(NovelBox.Text, select1 + ".*" + select2);
+                }
+                selectlistBox.DataSource = results;
+            }
+            else
+            {
+                MessageBox.Show("请输入检索内容！");
+            }
+        }
+
+        private string[] Getunit(string value, string regx)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                return null;
+            bool isMatch = Regex.IsMatch(value, regx);
+            if (!isMatch)
+                return null;
+            MatchCollection matchCol = Regex.Matches(value, regx);
+            string[] result = new string[matchCol.Count];
+            if (matchCol.Count > 0)
+            {
+                for (int i = 0; i < matchCol.Count; i++)
+                {
+                    result[i] = matchCol[i].Value;
+                }
+            }
+            return result;
+        }
+        private void selectlistBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string find = selectlistBox.SelectedItem.ToString();
+            NovelBox.Select(NovelBox.Text.IndexOf(find), find.Length);
+            NovelBox.ScrollToCaret();
+            NovelBox.Focus();
+        }
+
+        private void cancelButton_Click(object sender, EventArgs e)
+        {
+            this.selectTextBox1.Text = "";
+            this.selectTextBox2.Text = "";
+            this.selectlistBox.Visible = false;
+        }
     }
 }
