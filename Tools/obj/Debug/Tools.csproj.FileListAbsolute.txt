@@ -12,3 +12,8 @@ D:\vs_test\Reader-master\Tools\bin\Debug\Tools.dll
 D:\vs_test\Reader-master\Tools\bin\Debug\Tools.pdb
 D:\vs_test\Reader-master\Tools\obj\Debug\Tools.dll
 D:\vs_test\Reader-master\Tools\obj\Debug\Tools.pdb
+E:\TEST\Reader\Tools\bin\Debug\Tools.dll
+E:\TEST\Reader\Tools\bin\Debug\Tools.pdb
+E:\TEST\Reader\Tools\obj\Debug\Tools.csprojResolveAssemblyReference.cache
+E:\TEST\Reader\Tools\obj\Debug\Tools.dll
+E:\TEST\Reader\Tools\obj\Debug\Tools.pdb

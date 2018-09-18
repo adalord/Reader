@@ -313,9 +313,10 @@ namespace Novel
                 RSS.Default.lastTextIndex = this.getCurrentIndex(this.NovelBox);
                 RSS.Default.Save();
                 this.toolStrip1.Visible = true;
-                this.toolStrip1.BackColor = Color.FromArgb(255, 255, 254);
+                this.toolStrip1.BackColor = Color.WhiteSmoke;
+                this.selectTextBox.BackColor = Color.White;
                 this.NovelBox.BackColor = RSS.Default.backColor;
-                this.TransparencyKey = Color.White;
+                this.TransparencyKey = Color.Gold;
                 this.BackColor = this.windowBackColor;
                 this.NovelBox.ScrollBars = RichTextBoxScrollBars.Vertical;
                 this.FormBorderStyle = FormBorderStyle.Sizable;
@@ -385,6 +386,7 @@ namespace Novel
             rich.ScrollToCaret();
 
         }
+
         /// <summary>
         /// 获取当前行第一个字符的位置（与光标所在位置无关）
         /// </summary>
@@ -398,6 +400,7 @@ namespace Novel
             //return positionIndex;
             return SendMessage(rich.Handle, EM_LINEINDEX, getCurrentLine(rich), 0);
         }
+
         /// <summary>
         /// 跳转到第n个位置
         /// </summary>
@@ -478,6 +481,7 @@ namespace Novel
             public short wBorderWidth;
             public short wBorders;
         }
+
         /// <summary>
         /// 设置行距
         /// </summary>
@@ -512,7 +516,6 @@ namespace Novel
             form2.ShowDialog();
             form2.Focus();
         }
-
 
     }
 }

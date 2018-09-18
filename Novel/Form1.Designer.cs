@@ -45,12 +45,14 @@ namespace Novel
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.toolStripButton1 = new System.Windows.Forms.ToolStripSplitButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.selectTextBox = new System.Windows.Forms.ToolStripTextBox();
+            this.selectButton = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip1
             // 
-            this.toolStrip1.BackColor = System.Drawing.SystemColors.Window;
+            this.toolStrip1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openButton,
             this.toolStripSeparator1,
@@ -59,6 +61,8 @@ namespace Novel
             this.toolStripButton2,
             this.hideButton,
             this.toolStripSeparator3,
+            this.selectTextBox,
+            this.selectButton,
             this.toolStripSeparator2,
             this.exitButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
@@ -175,6 +179,21 @@ namespace Novel
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
             // 
+            // selectTextBox
+            // 
+            this.selectTextBox.BackColor = System.Drawing.Color.White;
+            this.selectTextBox.Name = "selectTextBox";
+            this.selectTextBox.Size = new System.Drawing.Size(100, 25);
+            // 
+            // selectButton
+            // 
+            this.selectButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.selectButton.Image = ((System.Drawing.Image)(resources.GetObject("selectButton.Image")));
+            this.selectButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.selectButton.Name = "selectButton";
+            this.selectButton.Size = new System.Drawing.Size(36, 22);
+            this.selectButton.Text = "检索";
+            // 
             // Form1
             // 
             this.AllowDrop = true;
@@ -218,6 +237,8 @@ namespace Novel
         private ToolStripSplitButton toolStripButton1;
         private ToolStripButton toolStripButton2;
         private ToolStripSeparator toolStripSeparator3;
+        private ToolStripTextBox selectTextBox;
+        private ToolStripButton selectButton;
     }
 }
 

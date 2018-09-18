@@ -34,3 +34,15 @@ D:\vs_test\Reader-master\Novel\obj\x86\Debug\Novel.Form1.resources
 D:\vs_test\Reader-master\Novel\obj\x86\Debug\Novel.Properties.Resources.resources
 D:\vs_test\Reader-master\Novel\obj\x86\Debug\Novel.csproj.GenerateResource.Cache
 G:\Reader\Novel\obj\x86\Debug\Novel.Form2.resources
+E:\TEST\Reader\Novel\bin\Debug\Novel.exe.config
+E:\TEST\Reader\Novel\obj\x86\Debug\Novel.exe
+E:\TEST\Reader\Novel\obj\x86\Debug\Novel.pdb
+E:\TEST\Reader\Novel\bin\Debug\Novel.exe
+E:\TEST\Reader\Novel\bin\Debug\Novel.pdb
+E:\TEST\Reader\Novel\bin\Debug\Tools.dll
+E:\TEST\Reader\Novel\bin\Debug\Tools.pdb
+E:\TEST\Reader\Novel\obj\x86\Debug\Novel.csprojResolveAssemblyReference.cache
+E:\TEST\Reader\Novel\obj\x86\Debug\Novel.Form1.resources
+E:\TEST\Reader\Novel\obj\x86\Debug\Novel.Form2.resources
+E:\TEST\Reader\Novel\obj\x86\Debug\Novel.Properties.Resources.resources
+E:\TEST\Reader\Novel\obj\x86\Debug\Novel.csproj.GenerateResource.Cache
