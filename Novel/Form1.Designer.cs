@@ -44,6 +44,7 @@ namespace Novel
             this.NovelBox = new Tools.MyRichTextBox();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.toolStripButton1 = new System.Windows.Forms.ToolStripSplitButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -57,6 +58,7 @@ namespace Novel
             this.backColorButton,
             this.toolStripButton2,
             this.hideButton,
+            this.toolStripSeparator3,
             this.toolStripSeparator2,
             this.exitButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
@@ -168,6 +170,11 @@ namespace Novel
             this.toolStripButton1.Size = new System.Drawing.Size(48, 22);
             this.toolStripButton1.Text = "间距";
             // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
             // Form1
             // 
             this.AllowDrop = true;
@@ -210,6 +217,7 @@ namespace Novel
         private ToolStripButton fontButton;
         private ToolStripSplitButton toolStripButton1;
         private ToolStripButton toolStripButton2;
+        private ToolStripSeparator toolStripSeparator3;
     }
 }
 
